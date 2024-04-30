@@ -1,0 +1,9 @@
+localhost {
+	root * /var/www/html/src/ 
+	encode gzip
+	php_fastcgi php:9000 
+	file_server
+	log {
+		output file /data/caddy/logs/caddy.log
+	}
+}

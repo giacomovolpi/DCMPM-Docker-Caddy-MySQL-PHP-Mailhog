@@ -1,0 +1,57 @@
+services:
+  mysql:
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootroot
+      - MYSQL_DATABASE=securebooksellingdb
+    networks:
+      - backend_network
+
+  php:
+    build:
+      context: ./php
+    volumes:
+      - ./webapp:/var/www/html/
+    networks:
+      - backend_network
+    depends_on:
+      - mysql
+
+  caddy:
+    container_name: caddy
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./webapp:/var/www/html
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - backend_network
+    depends_on:
+      - php
+  mailhog:
+      image: mailhog/mailhog:latest
+      restart: always
+      networks:
+        - backend_network
+      ports:
+        - 1025:1025
+        - 8025:8025
+
+volumes:
+  mysql_data:
+  caddy_data:
+  caddy_config:
+
+
+networks:
+  backend_network:
