@@ -1,4 +1,4 @@
-# DCMPMM-Docker-Caddy-MySQL-PHP-Mailhog
+# DCMPM-Docker-Caddy-MySQL-PHP-Mailhog
 Simple configuration for the containerization of web project. 
 It includes 4 containers and it can be useful for the development of a webapp.
 - Caddy (web server)
