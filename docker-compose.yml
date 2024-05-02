@@ -14,7 +14,7 @@ services:
 
   php:
     build:
-      context: ./php
+      dockerfile: ./php/Dockerfile
     volumes:
       - ./webapp:/var/www/html/
     networks:
@@ -40,7 +40,7 @@ services:
       - php
   mailhog:
       image: mailhog/mailhog:latest
-      restart: always
+      restart: unless-stopped
       networks:
         - backend_network
       ports:
